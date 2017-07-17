@@ -4,7 +4,25 @@ import { trigger,state,style,transition,animate,keyframes } from '@angular/anima
 
 @Component({
   selector: 'app-root',
-  template:` 
+  template:`
+  <h1>Hey guys!</h1>
+  <p>{{ myObject.gender }}</p>
+  
+  <ul>
+    <li *ngFor="let arr of myArr">{{ arr }}</li>
+  </ul>
+  <div *ngIf="myArr; then tmpl1 else tmpl2"></div>
+  <ng-template #tmpl1>I'm here</ng-template>
+  <ng-template #tmpl2>I'm not here</ng-template>
+  
+  <img src="{{ angularLogo }}">
+  <img [src]="angularLogo">
+  <img bind-src="angularLogo">
+
+<button [disabled]="buttonStatus == 'enabled'">My Button</button>  
+ 
+<button (click)="myEvent($event)">My Button</button>
+
   <h1 [ngStyle]="titleStyles">Hello!</h1>
   <h2>{{someProperty}}</h2>
 <p [@myAwesomeAnimation]='state' (click)="animateMe()">I will animate</p>
@@ -50,12 +68,24 @@ p {
 })
 export class AppComponent {
 
-state: string = 'small'
-  
-constructor(private dataService:DataService) {
+myArr = ['him','hers','yours','theirs'];
+
+myObject = {
+    gender: 'male',
+    age: 33,
+    location: 'USA'
+  };
+
+ angularLogo = 'favicon.ico';
+
+ buttonStatus = 'enabled';
+
+  myEvent(event) {
+    console.log(event);
+  }
 
 
-}
+constructor(private dataService:DataService) {}
 
 someProperty:string ='';
 
@@ -68,6 +98,8 @@ titleStyles = {
 'color': 'red',
 'font-size' : '4em'
  }
+
+state: string = 'small';
 
  animateMe() {
    this.state = (this.state === 'small' ? 'large': 'small')
